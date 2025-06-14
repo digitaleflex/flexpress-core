@@ -1,4 +1,11 @@
-# FlexPress Core - Infrastructure WordPress de Production
+# FlexPress Core
+
+<p align="center">
+  <a href="https://github.com/digitaleflex/flexpress-core/actions/workflows/docker-build.yml"><img src="https://github.com/digitaleflex/flexpress-core/actions/workflows/docker-build.yml/badge.svg" alt="Build, Scan & Push"></a>
+  <a href="https://github.com/digitaleflex/flexpress-core/actions/workflows/integration-test.yml"><img src="https://github.com/digitaleflex/flexpress-core/actions/workflows/integration-test.yml/badge.svg" alt="Integration Tests"></a>
+  <a href="https://github.com/digitaleflex/flexpress-core/actions/workflows/super-linter.yml"><img src="https://github.com/digitaleflex/flexpress-core/actions/workflows/super-linter.yml/badge.svg" alt="Linter"></a>
+  <a href="https://github.com/digitaleflex/flexpress-core/actions/workflows/codeql-analysis.yml"><img src="https://github.com/digitaleflex/flexpress-core/actions/workflows/codeql-analysis.yml/badge.svg" alt="CodeQL Analysis"></a>
+</p> - Infrastructure WordPress de Production
 
 **FlexPress Core** est un socle d'infrastructure WordPress open-source, conteneurisé avec Docker et optimisé pour la production. Il fournit un environnement de développement et de déploiement robuste, sécurisé et performant, tout en offrant un contrôle total et une modularité maximale.
 

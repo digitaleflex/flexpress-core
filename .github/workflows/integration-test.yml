@@ -1,0 +1,46 @@
+name: Integration Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test-environment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Generate .env file for testing
+        run: |
+          cp .env.example .env
+          # Generate random passwords for the test run
+          echo "WORDPRESS_DB_PASSWORD=$(openssl rand -hex 16)" >> .env
+          echo "MYSQL_ROOT_PASSWORD=$(openssl rand -hex 16)" >> .env
+          echo "MYSQL_PASSWORD=$(openssl rand -hex 16)" >> .env
+
+      - name: Build and run the environment
+        run: docker compose up -d --build
+
+      - name: Wait for services to be healthy
+        run: |
+          echo "Waiting for services to start..."
+          sleep 45 # Give services time to initialize, especially MySQL and WordPress
+          docker compose ps
+
+      - name: Run Integration Test
+        run: |
+          echo "Running tests..."
+          # Test 1: Check if Nginx is serving the WordPress setup page
+          # We expect to see the language selection form, which is a sign of success.
+          curl --fail --retry 5 --retry-delay 5 http://localhost:9000 | grep "<form id=\"setup\" method=\"post\">"
+
+      - name: Show logs on failure
+        if: failure()
+        run: docker compose logs
+
+      - name: Tear down the environment
+        if: always()
+        run: docker compose down
