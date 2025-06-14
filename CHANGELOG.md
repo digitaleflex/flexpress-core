@@ -5,6 +5,75 @@ Tous les changements notables de ce projet seront documentés dans ce fichier.
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
 et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-06-14 15:00:00 UTC+1 (Africa/Porto-Novo)
+
+### Ajouté
+- Configuration optimisée de Nginx avec FastCGI Cache
+- Nouveau fichier `config/nginx/fastcgi-cache.conf` pour la gestion du cache
+- Headers de sécurité renforcés dans la configuration Nginx
+- Compression Gzip pour les fichiers statiques
+- Rate limiting pour la protection contre les attaques DDoS
+
+### Modifié
+- Optimisation de la configuration Nginx dans `config/nginx/default.conf`
+- Amélioration des paramètres de cache pour les fichiers statiques
+- Configuration des buffers et timeouts FastCGI
+- Gestion des logs Nginx avec buffer
+
+### Sécurité
+- Ajout de headers de sécurité (X-Frame-Options, X-XSS-Protection, etc.)
+- Protection contre les attaques par déni de service
+- Cache désactivé pour les pages d'administration WordPress
+- Cache désactivé pour les utilisateurs connectés
+
+### Performance
+- Mise en place du cache FastCGI (10GB max, 60min TTL)
+- Optimisation des buffers pour les requêtes FastCGI
+- Compression Gzip pour réduire la taille des fichiers
+- Cache intelligent des fichiers statiques
+
+## [1.0.1] - 2025-06-14 14:30:00 UTC+1 (Africa/Porto-Novo)
+
+### Ajouté
+- Intégration de Redis pour le cache
+- Script de génération automatique de mots de passe sécurisés
+- Script de gestion des permissions WordPress
+- Support SSL pour Nginx
+- Volumes persistants pour les logs
+- Healthchecks pour tous les services
+
+### Modifié
+- Augmentation des limites PHP pour les thèmes et plugins lourds
+  - Mémoire maximale : 512M
+  - Taille d'upload : 128M
+  - Temps d'exécution : 600s
+- Optimisation des configurations de cache
+  - OPcache JIT activé
+  - Buffer size augmenté
+  - Nombre de fichiers accélérés augmenté
+- Amélioration de la sécurité des conteneurs
+  - Permissions plus restrictives
+  - Configuration Redis sécurisée
+  - Gestion des logs centralisée
+
+### Sécurité
+- Génération automatique de mots de passe sécurisés
+- Configuration des permissions WordPress automatisée
+- Protection des fichiers sensibles
+- Isolation des services dans le réseau Docker
+
+### Performance
+- Intégration de Redis pour le cache
+- Optimisation des configurations PHP
+- Amélioration des performances MySQL
+- Cache des fichiers statiques
+
+### Documentation
+- Mise à jour des guides de configuration
+- Ajout de la documentation Redis
+- Instructions de déploiement mises à jour
+- Guide de sécurité renforcé
+
 ## [1.0.0] - 2025-06-14 14:02:00 UTC+1 (Africa/Porto-Novo)
 
 ### Ajouté
