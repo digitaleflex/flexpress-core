@@ -5,7 +5,7 @@
 .env.*
 
 # Dossiers de volumes
-wordpress/wp-content/uploads/
+wordpress/wp-config.php
 mysql/data/
 
 # Fichiers système

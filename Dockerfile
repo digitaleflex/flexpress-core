@@ -37,8 +37,8 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     exif \
     fileinfo
 
-# Installation de Redis
-RUN apk add --no-cache redis \
+# Installation de l'extension Redis
+RUN pecl channel-update pecl.php.net \
     && pecl install redis \
     && docker-php-ext-enable redis
 
