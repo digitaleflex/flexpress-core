@@ -15,8 +15,7 @@ MYSQL_ROOT_PASSWORD=$(generate_password)
 
 
 # Configuration WordPress
-WP_DEBUG=false
-WP_ENV=production
+WORDPRESS_DEBUG=false
 
 # Configuration Nginx
 NGINX_PORT=9000
