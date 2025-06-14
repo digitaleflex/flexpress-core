@@ -4,6 +4,7 @@ services:
     image: nginx:alpine
     container_name: flexpress-nginx
     restart: unless-stopped
+    env_file: ./.env
     ports:
       - "${NGINX_PORT:-9000}:80"
       - "${NGINX_SSL_PORT:-443}:443"
@@ -13,8 +14,7 @@ services:
       - ./config/nginx/ssl:/etc/nginx/ssl
       - nginx_logs:/var/log/nginx
     depends_on:
-      wordpress:
-        condition: service_healthy
+      - wordpress
     networks:
       - flexpress-network
     healthcheck:
@@ -22,28 +22,21 @@ services:
       interval: 30s
       timeout: 3s
       retries: 3
-    environment:
-      - NGINX_HOST=localhost
-      - NGINX_PORT=80
-      - NGINX_SSL_PORT=443
 
   # Service WordPress
   wordpress:
     build:
       context: .
-      args:
-        - MYSQL_ROOT_PASSWORD=rootpassword123
-        - MYSQL_PASSWORD=wordpresspassword
-        - WORDPRESS_DB_PASSWORD=wordpresspassword
     container_name: flexpress-wordpress
     restart: unless-stopped
+    env_file: ./.env
     environment:
-      - WORDPRESS_DB_HOST=mysql
-      - WORDPRESS_DB_USER=wordpress
-      - WORDPRESS_DB_PASSWORD=wordpresspassword
-      - WORDPRESS_DB_NAME=wordpress
-      - WORDPRESS_DEBUG=false
-      - WORDPRESS_LANG=fr_FR
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DEBUG: ${WORDPRESS_DEBUG:-false}
+      WORDPRESS_LANG: ${WORDPRESS_LANG:-fr_FR}
     volumes:
       - wordpress_data:/var/www/html
       - ./config/php:/usr/local/etc/php/conf.d
@@ -64,12 +57,12 @@ services:
     image: mysql:8.0
     container_name: flexpress-mysql
     restart: unless-stopped
+    env_file: ./.env
     environment:
-      - MYSQL_ROOT_PASSWORD=rootpassword123  # Mot de passe root pour MySQL
-      - MYSQL_DATABASE=wordpress           # Nom de la base de données
-      - MYSQL_USER=wordpress               # Utilisateur WordPress
-      - MYSQL_PASSWORD=wordpresspassword   # Mot de passe utilisateur WordPress
-      - MYSQL_HOST=localhost
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
       - ./config/mysql:/etc/mysql/conf.d
@@ -77,7 +70,7 @@ services:
       - ./scripts/init-mysql.sh:/docker-entrypoint-initdb.d/init-mysql.sh
     command: --default-authentication-plugin=mysql_native_password
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$${MYSQL_ROOT_PASSWORD}"]
       interval: 30s
       timeout: 3s
       retries: 3

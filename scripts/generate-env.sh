@@ -19,7 +19,7 @@ WP_DEBUG=false
 WP_ENV=production
 
 # Configuration Nginx
-NGINX_PORT=80
+NGINX_PORT=9000
 NGINX_SSL_PORT=443
 
 # Configuration des timezones
