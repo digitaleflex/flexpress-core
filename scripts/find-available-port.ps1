@@ -31,8 +31,8 @@ if ($availablePort) {
     Write-Host "Port disponible trouvé : $availablePort"
     
     # Génération de mots de passe sécurisés
-    $mysqlRootPassword = -join ((48..57) + (97..122) + (65..90) | Get-Random -Count 16 | % {[char]$_})
-    $mysqlPassword = -join ((48..57) + (97..122) + (65..90) | Get-Random -Count 16 | % {[char]$_})
+    $mysqlRootPassword = -join ((48..57) + (97..122) + (65..90) | Get-Random -Count 16 | ForEach-Object {[char]$_})
+    $mysqlPassword = -join ((48..57) + (97..122) + (65..90) | Get-Random -Count 16 | ForEach-Object {[char]$_})
     
     # Création du contenu du fichier .env
     $envContent = @"

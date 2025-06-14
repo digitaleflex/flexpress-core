@@ -1,53 +1,62 @@
 # Image de base WordPress avec PHP 8.2 et FPM
 FROM wordpress:php8.2-fpm-alpine
 
-# Définition des variables d'environnement avec valeurs par défaut
-ARG MYSQL_ROOT_PASSWORD
-ARG MYSQL_PASSWORD
-ARG WORDPRESS_DB_PASSWORD
-
-# Installation des dépendances
-RUN apk add --no-cache \
-    curl \
-    libzip-dev \
-    zip \
-    unzip \
-    git \
-    imagemagick-dev \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    autoconf \
-    dpkg-dev \
-    dpkg \
-    file \
-    g++ \
-    gcc \
-    libc-dev \
-    make \
-    pkgconf \
-    re2c
-
-# Installation des extensions PHP
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-    gd \
-    mysqli \
-    pdo_mysql \
-    exif \
-    fileinfo
-
-
-
-# Optimisation de la configuration PHP
-RUN echo "memory_limit=512M" > /usr/local/etc/php/conf.d/memory-limit.ini \
-    && echo "upload_max_filesize=128M" > /usr/local/etc/php/conf.d/upload-limit.ini \
-    && echo "post_max_size=128M" >> /usr/local/etc/php/conf.d/upload-limit.ini \
-    && echo "max_execution_time=600" > /usr/local/etc/php/conf.d/time-limit.ini
-
-# Configuration de la langue française pour WordPress
-RUN echo "define('WPLANG', 'fr_FR');" > /usr/local/etc/php/conf.d/wordpress-lang.ini \
-    && echo "define('WP_LANG_DIR', '/var/www/html/wp-content/languages');" >> /usr/local/etc/php/conf.d/wordpress-lang.ini
+# Combinez les commandes RUN pour réduire le nombre de couches de l'image.
+# Installez les dépendances, les extensions PHP, puis nettoyez les dépendances de build.
+RUN set -eux; \
+    \
+    # Dépendances nécessaires uniquement pour la compilation (seront supprimées)
+    apk add --no-cache --virtual .build-deps \
+        autoconf \
+        dpkg \
+        dpkg-dev \
+        file \
+        freetype-dev \
+        g++ \
+        gcc \
+        imagemagick-dev \
+        libc-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libzip-dev \
+        make \
+        pkgconf \
+        re2c; \
+    \
+    # Dépendances d'exécution (gardées dans l'image finale)
+    apk add --no-cache \
+        curl \
+        git \
+        unzip \
+        zip; \
+    \
+    # Configuration et installation des extensions PHP
+    docker-php-ext-configure gd --with-freetype --with-jpeg; \
+    docker-php-ext-install -j"$(nproc)" \
+        exif \
+        fileinfo \
+        gd \
+        mysqli \
+        pdo_mysql; \
+    \
+    # Nettoyage des dépendances de build
+    apk del .build-deps; \
+    \
+    # Création d'un fichier de configuration PHP unique pour les optimisations
+    { \
+        echo "memory_limit=512M"; \
+        echo "upload_max_filesize=128M"; \
+        echo "post_max_size=128M"; \
+        echo "max_execution_time=600"; \
+    } > /usr/local/etc/php/conf.d/zz-flexpress-optimizations.ini; \
+    \
+    # Configuration de la langue : la meilleure pratique est d'utiliser la variable d'environnement
+    # WORDPRESS_LANG='fr_FR' dans votre fichier .env ou docker-compose.yml.
+    # Ce fichier est laissé en exemple, mais les lignes sont commentées.
+    { \
+        echo "; define('WPLANG', 'fr_FR');"; \
+        echo "; define('WP_LANG_DIR', '/var/www/html/wp-content/languages');"; \
+    } > /usr/local/etc/php/conf.d/zz-wordpress-lang-example.ini
 
 # Création des répertoires WordPress
 RUN mkdir -p /var/www/html/wp-content/uploads \
