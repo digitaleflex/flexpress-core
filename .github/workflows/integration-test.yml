@@ -15,11 +15,20 @@ jobs:
 
       - name: Generate .env file for testing
         run: |
-          cp .env.example .env
+          echo "NGINX_PORT=9000" > .env
+          echo "MYSQL_DATABASE=wordpress" >> .env
+          echo "MYSQL_USER=wordpress" >> .env
+          echo "WORDPRESS_DEBUG=false" >> .env
+          
           # Generate random passwords for the test run
-          echo "WORDPRESS_DB_PASSWORD=$(openssl rand -hex 16)" >> .env
+          MYSQL_PASSWORD=$(openssl rand -hex 16)
+          echo "WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD" >> .env
+          echo "MYSQL_PASSWORD=$MYSQL_PASSWORD" >> .env
           echo "MYSQL_ROOT_PASSWORD=$(openssl rand -hex 16)" >> .env
-          echo "MYSQL_PASSWORD=$(openssl rand -hex 16)" >> .env
+          
+          echo "--- Generated .env file for test ---"
+          cat .env
+          echo "------------------------------------"
 
       - name: Build and run the environment
         run: docker compose up -d --build
