@@ -5,6 +5,16 @@ Tous les changements notables de ce projet seront documentés dans ce fichier.
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
 et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2025-06-14 18:31:00 UTC+1 (Africa/Porto-Novo)
+
+### Supprimé
+- Retrait de l'installation et de la configuration automatiques de Redis. L'intégration est désormais manuelle pour plus de flexibilité.
+- Suppression de l'installation de l'extension PhpRedis du Dockerfile.
+- Suppression du pré-téléchargement du plugin Redis Object Cache.
+
+### Modifié
+- Le `Dockerfile` a été nettoyé de toutes les dépendances et configurations relatives à Redis.
+
 ## [1.0.2] - 2025-06-14 15:00:00 UTC+1 (Africa/Porto-Novo)
 
 ### Ajouté
@@ -35,7 +45,6 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [1.0.1] - 2025-06-14 14:30:00 UTC+1 (Africa/Porto-Novo)
 
 ### Ajouté
-- Intégration de Redis pour le cache
 - Script de génération automatique de mots de passe sécurisés
 - Script de gestion des permissions WordPress
 - Support SSL pour Nginx
@@ -53,7 +62,6 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Nombre de fichiers accélérés augmenté
 - Amélioration de la sécurité des conteneurs
   - Permissions plus restrictives
-  - Configuration Redis sécurisée
   - Gestion des logs centralisée
 
 ### Sécurité
@@ -63,14 +71,12 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Isolation des services dans le réseau Docker
 
 ### Performance
-- Intégration de Redis pour le cache
 - Optimisation des configurations PHP
 - Amélioration des performances MySQL
 - Cache des fichiers statiques
 
 ### Documentation
 - Mise à jour des guides de configuration
-- Ajout de la documentation Redis
 - Instructions de déploiement mises à jour
 - Guide de sécurité renforcé
 

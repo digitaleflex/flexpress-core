@@ -89,7 +89,6 @@ Pour toute question ou support, veuillez ouvrir une issue sur GitHub.
 ## 🌟 Fonctionnalités
 
 - 🚀 **Performance Optimisée**
-  - Cache Redis intégré
   - OPcache JIT activé
   - Compression GZIP
   - Cache des fichiers statiques
@@ -164,8 +163,7 @@ MYSQL_USER=wordpress
 MYSQL_PASSWORD=<généré-automatiquement>
 MYSQL_ROOT_PASSWORD=<généré-automatiquement>
 
-# Redis
-REDIS_PASSWORD=<généré-automatiquement>
+
 
 # WordPress
 WP_ENV=development
@@ -182,7 +180,7 @@ WP_ADMIN_EMAIL=admin@example.com
 - **WordPress** : PHP 8.2 avec FPM
 - **Nginx** : Serveur web optimisé
 - **MySQL** : Base de données
-- **Redis** : Cache objet
+
 
 ## 🔒 Sécurité
 
@@ -194,7 +192,7 @@ WP_ADMIN_EMAIL=admin@example.com
 
 ## 🚀 Performance
 
-- Cache Redis pour les objets
+
 - OPcache JIT pour PHP
 - Cache des fichiers statiques
 - Compression GZIP

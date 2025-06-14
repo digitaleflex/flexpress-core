@@ -33,7 +33,6 @@ if ($availablePort) {
     # Génération de mots de passe sécurisés
     $mysqlRootPassword = -join ((48..57) + (97..122) + (65..90) | Get-Random -Count 16 | % {[char]$_})
     $mysqlPassword = -join ((48..57) + (97..122) + (65..90) | Get-Random -Count 16 | % {[char]$_})
-    $redisPassword = -join ((48..57) + (97..122) + (65..90) | Get-Random -Count 16 | % {[char]$_})
     
     # Création du contenu du fichier .env
     $envContent = @"
@@ -47,8 +46,6 @@ MYSQL_PASSWORD=$mysqlPassword
 WORDPRESS_DB_PASSWORD=$mysqlPassword
 WORDPRESS_DEBUG=false
 
-# Configuration Redis
-REDIS_PASSWORD=$redisPassword
 
 # Configuration Nginx
 NGINX_PORT=$availablePort

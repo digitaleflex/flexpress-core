@@ -57,9 +57,6 @@ MYSQL_USER=wordpress
 MYSQL_PASSWORD=<généré-automatiquement>
 MYSQL_ROOT_PASSWORD=<généré-automatiquement>
 
-# Redis
-REDIS_PASSWORD=<généré-automatiquement>
-
 # WordPress
 WP_ENV=development
 WP_DEBUG=true
@@ -128,25 +125,6 @@ max_connections = 1000
 max_allowed_packet = 64M
 ```
 
-### Configuration Redis
-
-Redis est configuré pour le cache avec les paramètres suivants :
-
-```yaml
-redis:
-  image: redis:alpine
-  command: redis-server --requirepass ${REDIS_PASSWORD}
-  volumes:
-    - redis_data:/data
-  networks:
-    - flexpress_network
-  healthcheck:
-    test: ["CMD", "redis-cli", "ping"]
-    interval: 10s
-    timeout: 5s
-    retries: 3
-```
-
 ## Sécurité
 
 ### Génération des mots de passe
@@ -158,7 +136,7 @@ Les mots de passe sont générés automatiquement lors de la première installat
 ```
 
 Ce script :
-- Génère des mots de passe sécurisés pour MySQL et Redis
+- Génère des mots de passe sécurisés pour MySQL
 - Configure les permissions du fichier .env (600)
 - Crée les variables d'environnement nécessaires
 
@@ -193,7 +171,7 @@ docker compose restart nginx
 
 Le système utilise plusieurs niveaux de cache :
 
-1. **Redis** pour le cache objet
+
 2. **OPcache** pour le cache PHP
 3. **Nginx** pour le cache des fichiers statiques
 
@@ -247,9 +225,6 @@ docker compose logs wordpress
 
 # Logs MySQL
 docker compose logs mysql
-
-# Logs Redis
-docker compose logs redis
 ```
 
 ### Redémarrage des services
@@ -279,16 +254,12 @@ docker compose exec wordpress ls -la /var/www/html
    - Vérifier les logs MySQL
    - Redémarrer le service
 
-2. **Problèmes de cache**
-   - Vider le cache Redis : `docker compose exec redis redis-cli FLUSHALL`
-   - Redémarrer Redis : `docker compose restart redis`
-
-3. **Problèmes de permissions**
+2. **Problèmes de permissions**
    - Exécuter le script de permissions
    - Vérifier les logs PHP
    - Vérifier les propriétaires des fichiers
 
-4. **Problèmes SSL**
+3. **Problèmes SSL**
    - Vérifier les certificats
    - Vérifier la configuration Nginx
    - Vérifier les permissions des certificats

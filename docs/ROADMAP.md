@@ -35,7 +35,6 @@
 ### Semaine 4
 - [ ] Intégration des extensions
   - [ ] Configuration de Traefik
-  - [ ] Mise en place de Redis
   - [ ] Configuration des backups externes
 - [ ] Tests de sécurité
   - [ ] Scan de vulnérabilités

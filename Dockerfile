@@ -4,11 +4,11 @@ FROM wordpress:php8.2-fpm-alpine
 # Définition des variables d'environnement avec valeurs par défaut
 ARG MYSQL_ROOT_PASSWORD
 ARG MYSQL_PASSWORD
-ARG REDIS_PASSWORD
 ARG WORDPRESS_DB_PASSWORD
 
 # Installation des dépendances
 RUN apk add --no-cache \
+    curl \
     libzip-dev \
     zip \
     unzip \
@@ -37,10 +37,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     exif \
     fileinfo
 
-# Installation de l'extension Redis
-RUN pecl channel-update pecl.php.net \
-    && pecl install redis \
-    && docker-php-ext-enable redis
+
 
 # Optimisation de la configuration PHP
 RUN echo "memory_limit=512M" > /usr/local/etc/php/conf.d/memory-limit.ini \
@@ -62,7 +59,10 @@ RUN mkdir -p /var/www/html/wp-content/uploads \
 # Configuration des permissions de base
 RUN chown -R www-data:www-data /var/www/html /var/log/php \
     && find /var/www/html -type d -exec chmod 755 {} \; \
-    && find /var/www/html -type f -exec chmod 644 {} \; \
+    && find /var/www/html -type f -exec chmod 644 {} \;
+
+# Configuration des permissions pour wp-content
+RUN chown -R www-data:www-data /var/www/html/wp-content \
     && chmod -R 775 /var/www/html/wp-content/uploads \
     && chmod -R 775 /var/www/html/wp-content/plugins \
     && chmod -R 775 /var/www/html/wp-content/themes \

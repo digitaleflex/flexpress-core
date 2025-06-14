@@ -34,7 +34,6 @@ services:
       args:
         - MYSQL_ROOT_PASSWORD=rootpassword123
         - MYSQL_PASSWORD=wordpresspassword
-        - REDIS_PASSWORD=redispassword
         - WORDPRESS_DB_PASSWORD=wordpresspassword
     container_name: flexpress-wordpress
     restart: unless-stopped
@@ -45,17 +44,11 @@ services:
       - WORDPRESS_DB_NAME=wordpress
       - WORDPRESS_DEBUG=false
       - WORDPRESS_LANG=fr_FR
-      - WP_REDIS_HOST=redis
-      - WP_REDIS_PORT=6379
-      - WP_REDIS_DATABASE=0
-      - WP_REDIS_PASSWORD=redispassword
     volumes:
       - wordpress_data:/var/www/html
       - ./config/php:/usr/local/etc/php/conf.d
     depends_on:
       mysql:
-        condition: service_healthy
-      redis:
         condition: service_healthy
     networks:
       - flexpress-network
@@ -91,29 +84,11 @@ services:
     networks:
       - flexpress-network
 
-  # Service Redis
-  redis:
-    image: redis:alpine
-    container_name: flexpress-redis
-    restart: unless-stopped
-    command: redis-server --requirepass ${REDIS_PASSWORD}
-    volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 3s
-      retries: 3
-    networks:
-      - flexpress-network
-
 volumes:
   wordpress_data:
     name: flexpress-wordpress-data
   mysql_data:
     name: flexpress-mysql-data
-  redis_data:
-    name: flexpress-redis-data
   mysql_logs:
     name: flexpress-mysql-logs
   nginx_logs:

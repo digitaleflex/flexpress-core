@@ -13,8 +13,6 @@ MYSQL_USER=flexpress_user
 MYSQL_PASSWORD=$(generate_password)
 MYSQL_ROOT_PASSWORD=$(generate_password)
 
-# Configuration Redis
-REDIS_PASSWORD=$(generate_password)
 
 # Configuration WordPress
 WP_DEBUG=false
