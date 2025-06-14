@@ -33,18 +33,25 @@ jobs:
       - name: Build and run the environment
         run: docker compose up -d --build
 
-      - name: Wait for services to be healthy
+      - name: Wait for WordPress and run integration test
         run: |
-          echo "Waiting for services to start..."
-          sleep 45 # Give services time to initialize, especially MySQL and WordPress
-          docker compose ps
-
-      - name: Run Integration Test
-        run: |
-          echo "Running tests..."
-          # Test 1: Check if Nginx is serving the WordPress setup page
-          # We expect to see the language selection form, which is a sign of success.
-          curl --fail --retry 5 --retry-delay 5 http://localhost:9000 | grep "<form id=\"setup\" method=\"post\">"
+          echo "Waiting for WordPress setup page..."
+          timeout=300 # 5 minutes timeout
+          interval=10 # 10 seconds interval
+          elapsed=0
+          # Loop until the setup form is present in the page content
+          until curl -sf http://localhost:9000 | grep -q '<form id="setup" method="post">'; do
+            if [ $elapsed -ge $timeout ]; then
+              echo "Timeout reached. WordPress setup page not found."
+              echo "--- DOCKER LOGS ---"
+              docker compose logs
+              exit 1
+            fi
+            echo "WordPress not ready, waiting $interval seconds..."
+            sleep $interval
+            elapsed=$((elapsed + interval))
+          done
+          echo "✅ WordPress setup page is available. Integration test passed!"
 
       - name: Show logs on failure
         if: failure()
