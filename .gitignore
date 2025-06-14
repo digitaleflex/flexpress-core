@@ -1,0 +1,26 @@
+# .gitignore
+
+# Fichiers sensibles
+.env
+.env.*
+
+# Dossiers de volumes
+wordpress/wp-content/uploads/
+mysql/data/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Logs & systèmes de debug
+*.log
+logs/
+*.pid
+
+# Backup / archives
+*.zip
+*.tar.gz
+*.gz
+
+# Node (si tu utilises npm/yarn pour des thèmes)
+node_modules/

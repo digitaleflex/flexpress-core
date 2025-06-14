@@ -1,0 +1,84 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 📁 Contexte de projet : FlexPress Core
+
+## 💡 Objectif
+
+FlexPress-Core est une base WordPress dockerisée, modulaire et orientée DevOps. Le code et les configurations doivent respecter une logique d’**environnements propres**, de **modularité par services**, et de **sécurité dès la conception**.
+
+---
+
+## 🧱 Architecture du projet
+
+flexpress-core/
+├── docker-compose.yml # Orchestration principale
+├── Dockerfile # Image WordPress customisée
+├── .env # Variables d’environnement (jamais versionnées)
+├── config/ # Configuration PHP, Apache, etc.
+├── wordpress/wp-content/ # Personnalisations WordPress (plugins/themes)
+├── mysql/data/ # Persistance base de données
+├── extensions/ # Services optionnels activables (Traefik, Redis…)
+├── scripts/ # Automatisations WP-CLI et Shell
+├── docs/ # Documentation projet (README, changelog…)
+└── Makefile # Commandes DevOps simplifiées
+
+
+---
+
+## ✅ Style & bonnes pratiques attendues
+
+- 🔐 Toujours utiliser des **variables d’environnement** pour les mots de passe et secrets
+- 📦 Favoriser **la modularité** (fichiers `.yml` séparés dans `extensions/`)
+- 🧪 Ajouter des **healthchecks** dans les services critiques
+- 🧩 Structure claire et extensible, sans duplication
+- 💬 Tous les fichiers critiques (Dockerfile, `docker-compose.yml`, etc.) doivent être **commentés**
+- 🧘 Les scripts doivent être **idempotents** : relancer plusieurs fois ne doit pas casser le setup
+- 🧼 Pas de logique métier dans `Dockerfile`, mais bien dans les scripts dédiés
+- 📄 Tout nouveau service Docker doit avoir une **doc associée** dans `docs/ARCHITECTURE.md`
+- 🧙 Tous les plugins WordPress par défaut sont désactivés sauf exception documentée
+
+---
+
+## 🧭 Règles d’assistance Cursor AI
+
+- Si je travaille dans `docker-compose.yml` :
+  > proposer une structure lisible, indenter proprement, suggérer des `depends_on`, `healthcheck`, `labels` traefik si contexte disponible
+
+- Si je travaille dans `Dockerfile` :
+  > proposer une image légère (basée sur `wordpress:php8.X-fpm-alpine` de préférence) et sécurisée, éviter RUN chaînés trop longs
+
+- Si je travaille dans `scripts/` :
+  > proposer des scripts WP-CLI ou bash simples, commentés, avec gestion des erreurs
+
+- Si je travaille dans `docs/` :
+  > structurer automatiquement les sections en titres clairs, proposer des exemples concrets, générer du markdown lisible
+
+---
+
+## 🔄 Convention de version
+
+- La version actuelle du projet est : `v1.0.0`
+- Respect du [Semantic Versioning 2.0.0](https://semver.org/)
+- Chaque mise à jour doit être reflétée dans `docs/CHANGELOG.md`
+
+---
+
+## 🛡️ Sécurité & DevOps
+
+- 🔐 Le mot de passe root MySQL ne doit jamais être codé en dur
+- 🔒 Aucun plugin WordPress ne doit être préinstallé s’il n’est pas open source ou validé
+- 🔁 Prévoir une logique de backup externe (extension ou script recommandé)
+- 🔍 Utiliser Traefik ou Nginx avec Let’s Encrypt si `extensions/traefik.yml` est activé
+
+---
+
+## ✍️ Signature projet
+
+> Ce projet est maintenu par **Eurin HASH / E-FLEX CLOUD**, dans le cadre du CMS open infra **FlexPress**.  
+Tous les modules doivent pouvoir être *déployés, mis à jour et surveillés automatiquement* sur VPS souverain ou hébergement cloud privé.
+
+lien github :[github](https://github.com/digitaleflex/flexpress-core.git) 
+

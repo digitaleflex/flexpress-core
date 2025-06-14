@@ -1,0 +1,19 @@
+# .dockerignore
+
+.git
+.gitignore
+Dockerfile
+.env
+.env.*
+docs/
+README.md
+CHANGELOG.md
+ARCHITECTURE.md
+scripts/
+Makefile
+*.log
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.db
