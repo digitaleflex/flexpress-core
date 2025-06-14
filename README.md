@@ -1,240 +1,83 @@
-# 🚀 FlexPress Core
+# FlexPress Core - Infrastructure WordPress de Production
 
-## 📝 Description
-FlexPress Core est une infrastructure WordPress dockerisée, modulaire et orientée DevOps. Ce projet fournit une base solide pour le déploiement de sites WordPress avec une approche moderne et sécurisée.
+**FlexPress Core** est un socle d'infrastructure WordPress open-source, conteneurisé avec Docker et optimisé pour la production. Il fournit un environnement de développement et de déploiement robuste, sécurisé et performant, tout en offrant un contrôle total et une modularité maximale.
 
-## 🎯 Objectifs
-- Environnements propres et isolés
-- Architecture modulaire par services
-- Sécurité intégrée dès la conception
-- Facilité de déploiement et maintenance
+Ce projet est né de la nécessité d'avoir une solution qui se situe entre les hébergeurs gérés (souvent des "boîtes noires" rigides) et une configuration manuelle complexe. FlexPress Core offre la puissance d'une infrastructure sur mesure avec la simplicité de l'automatisation.
 
-## 🏗️ Architecture
-```
-flexpress-core/
-├── docker-compose.yml    # Orchestration principale
-├── Dockerfile           # Image WordPress customisée
-├── .env                # Variables d'environnement
-├── config/             # Configuration PHP, Apache, etc.
-├── wordpress/wp-content/ # Personnalisations WordPress
-├── mysql/data/         # Persistance base de données
-├── extensions/         # Services optionnels
-├── scripts/            # Automatisations
-├── docs/               # Documentation
-└── Makefile           # Commandes DevOps
-```
+---
 
-## 🚀 Installation Rapide
+## ✨ Fonctionnalités Clés
 
-1. Cloner le repository :
+-   **🚀 Performance Optimisée** : Construit avec Nginx, PHP-FPM et des optimisations de cache (OPcache, FastCGI Cache) pour des temps de réponse rapides.
+-   **🛡️ Sécurité Renforcée** : Isolation des services, gestion automatisée des secrets, permissions de fichiers sécurisées par défaut et en-têtes de sécurité Nginx.
+-   **🧩 Architecture Modulaire** : Un contrôle total sur votre stack. Ajoutez ou remplacez des composants facilement, sans être prisonnier d'une technologie.
+-   **🤖 Automatisation & DX** : Scripts pour les tâches courantes (génération de `.env`, gestion des permissions), environnement reproductible avec Docker et configuration centralisée.
+-   **📦 Prêt pour la Production** : Inclut des healthchecks pour chaque service, une gestion des logs et une structure pensée pour la stabilité et la maintenance.
+
+---
+
+## 🚀 Démarrage Rapide
+
+Pour lancer votre environnement FlexPress Core, suivez ces étapes :
+
+### 1. Prérequis
+
+-   [Docker Engine](https://docs.docker.com/engine/install/)
+-   [Docker Compose](https://docs.docker.com/compose/install/)
+-   [Git](https://git-scm.com/downloads)
+
+### 2. Cloner le Dépôt
+
 ```bash
 git clone https://github.com/digitaleflex/flexpress-core.git
 cd flexpress-core
 ```
 
-2. Configurer l'environnement :
+### 3. Générer le Fichier de Configuration
+
+Le projet utilise un fichier `.env` pour gérer toutes les configurations. Un script est fourni pour le générer automatiquement avec des mots de passe sécurisés.
+
 ```bash
-cp .env.example .env
-# Éditer .env avec vos paramètres
+# Sur Linux/macOS
+chmod +x scripts/generate-env.sh
+./scripts/generate-env.sh
+
+# Sur Windows (PowerShell)
+./scripts/generate-env.ps1
 ```
 
-3. Lancer l'infrastructure :
+**Important :** Après la génération, ouvrez le fichier `.env` et **définissez votre mot de passe administrateur WordPress** pour la variable `WP_ADMIN_PASSWORD`.
+
+### 4. Démarrer l'Infrastructure
+
+Lancez l'ensemble des services avec Docker Compose.
+
 ```bash
-make up
+docker compose up -d
 ```
 
-## 🔧 Fonctionnalités
+Votre site WordPress est maintenant accessible ! Par défaut, vous pouvez le trouver à l'adresse `http://localhost:9000` (ou le port que vous avez configuré dans `.env`).
 
-- 🐳 Environnement Docker complet
-- 🔐 Sécurité renforcée
-- 📦 Modularité des services
-- 🧪 Healthchecks intégrés
-- 🔄 Scripts idempotents
-- 📄 Documentation détaillée
-
-## 🛠️ Prérequis
-
-- Docker
-- Docker Compose
-- Make (optionnel)
-- Git
+---
 
 ## 📚 Documentation
 
-La documentation complète est disponible dans le dossier `docs/` :
-- Architecture détaillée
-- Guide d'installation
-- Bonnes pratiques
-- Changelog
+-   **[Guide de Configuration](docs/CONFIGURATION.md)** : Pour un aperçu détaillé de toutes les options de configuration.
+-   **[Documentation d'Architecture](docs/ARCHITECTURE.md)** : Pour comprendre le fonctionnement interne des services.
+-   **[Feuille de Route (Roadmap)](docs/ROADMAP.md)** : Pour voir les futures évolutions du projet.
+-   **[Guide de Sécurité](docs/SECURITY.md)** : Pour comprendre les mesures de sécurité intégrées.
+-   **[Changelog](CHANGELOG.md)** : Pour suivre l'historique des changements.
+
+---
 
 ## 🤝 Contribution
 
-Les contributions sont les bienvenues ! Consultez notre guide de contribution dans `docs/CONTRIBUTING.md`.
+Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou une pull request sur le dépôt GitHub.
 
 ## 📄 Licence
 
 Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
-## 👥 Auteurs
-
-- **Eurin HASH / E-FLEX CLOUD**
-
-## 📞 Support
-
-Pour toute question ou support, veuillez ouvrir une issue sur GitHub.
-
----
-*Dernière mise à jour : 14/06/2025*
-
-## 🌟 Fonctionnalités
-
-- 🚀 **Performance Optimisée**
-  - OPcache JIT activé
-  - Compression GZIP
-  - Cache des fichiers statiques
-
-- 🔒 **Sécurité Renforcée**
-  - Génération automatique de mots de passe
-  - Gestion des permissions automatisée
-  - Support SSL/TLS
-  - Isolation des services
-
-- 🛠 **Maintenance Simplifiée**
-  - Healthchecks automatisés
-  - Logs centralisés
-  - Scripts d'automatisation
-  - Sauvegardes facilitées
-
-- 📦 **Modularité**
-  - Architecture extensible
-  - Services isolés
-  - Configuration centralisée
-  - Volumes persistants
-
-## 🚀 Démarrage Rapide
-
-1. **Cloner le dépôt**
-```bash
-git clone https://github.com/votre-org/flexpress-core.git
-cd flexpress-core
-```
-
-2. **Générer la configuration**
-```bash
-chmod +x scripts/generate-env.sh
-./scripts/generate-env.sh
-```
-
-3. **Démarrer l'infrastructure**
-```bash
-docker compose up -d
-```
-
-4. **Configurer les permissions**
-```bash
-./scripts/fix-permissions.sh
-```
-
-## 📚 Documentation
-
-- [Guide de Configuration](docs/CONFIGURATION.md)
-- [Guide de Déploiement](docs/DEPLOYMENT.md)
-- [Guide de Sécurité](docs/SECURITY.md)
-- [Guide de Maintenance](docs/MAINTENANCE.md)
-
-## 🛠 Prérequis
-
-- Docker Engine 24.0.0+
-- Docker Compose v2.20.0+
-- Git
-- 4GB RAM minimum
-- 20GB espace disque minimum
-
-## 🔧 Configuration
-
-### Variables d'Environnement
-
-Le fichier `.env` est généré automatiquement avec des valeurs sécurisées :
-
-```env
-# MySQL
-MYSQL_DATABASE=wordpress
-MYSQL_USER=wordpress
-MYSQL_PASSWORD=<généré-automatiquement>
-MYSQL_ROOT_PASSWORD=<généré-automatiquement>
-
-
-
-# WordPress
-WP_ENV=development
-WP_DEBUG=true
-WP_TITLE="Mon Site WordPress"
-WP_URL=http://localhost
-WP_ADMIN_USER=admin
-WP_ADMIN_PASSWORD=<à-définir>
-WP_ADMIN_EMAIL=admin@example.com
-```
-
-### Services
-
-- **WordPress** : PHP 8.2 avec FPM
-- **Nginx** : Serveur web optimisé
-- **MySQL** : Base de données
-
-
-## 🔒 Sécurité
-
-- Mots de passe générés automatiquement
-- Permissions WordPress automatisées
-- Support SSL/TLS
-- Isolation des services
-- Protection des fichiers sensibles
-
-## 🚀 Performance
-
-
-- OPcache JIT pour PHP
-- Cache des fichiers statiques
-- Compression GZIP
-- Optimisations MySQL
-
-## 🛠 Maintenance
-
-### Logs
-
-Les logs sont centralisés dans `/var/log/` :
-- Nginx : `/var/log/nginx/`
-- PHP : `/var/log/php/`
-- MySQL : `/var/log/mysql/`
-
-### Healthchecks
-
-Tous les services incluent des healthchecks automatiques.
-
-### Sauvegarde
-
-```bash
-docker compose exec mysql mysqldump -u root -p wordpress > backup.sql
-```
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! Consultez notre [guide de contribution](CONTRIBUTING.md).
-
-## 📝 Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
-## 📞 Support
-
-Pour toute question ou problème :
-- Ouvrir une issue sur GitHub
-- Consulter la [documentation](docs/)
-- Contacter l'équipe de support
-
 ---
 
-Développé avec ❤️ par l'équipe FlexPress
-
----
-*Dernière mise à jour : 14/06/2025* 
+Développé avec ❤️ par [eflexcloud](https://github.com/digitaleflex). 
