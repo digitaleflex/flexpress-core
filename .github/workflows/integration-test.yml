@@ -15,17 +15,19 @@ jobs:
 
       - name: Generate .env file for testing
         run: |
-          echo "NGINX_PORT=9000" > .env
-          echo "MYSQL_DATABASE=wordpress" >> .env
-          echo "MYSQL_USER=wordpress" >> .env
-          echo "WORDPRESS_DEBUG=false" >> .env
-          
-          # Generate random passwords for the test run
-          MYSQL_PASSWORD=$(openssl rand -hex 16)
-          echo "WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD" >> .env
-          echo "MYSQL_PASSWORD=$MYSQL_PASSWORD" >> .env
-          echo "MYSQL_ROOT_PASSWORD=$(openssl rand -hex 16)" >> .env
-          
+          # Use a block to redirect all echos to the .env file at once, addressing SC2129
+          {
+            echo "NGINX_PORT=9000"
+            echo "MYSQL_DATABASE=wordpress"
+            echo "MYSQL_USER=wordpress"
+            echo "WORDPRESS_DEBUG=false"
+            # Generate random passwords for the test run
+            MYSQL_PASSWORD=$(openssl rand -hex 16)
+            echo "WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD"
+            echo "MYSQL_PASSWORD=$MYSQL_PASSWORD"
+            echo "MYSQL_ROOT_PASSWORD=$(openssl rand -hex 16)"
+          } > .env
+
           echo "--- Generated .env file for test ---"
           cat .env
           echo "------------------------------------"
