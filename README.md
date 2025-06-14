@@ -2,9 +2,9 @@
 
 <p align="center">
   <a href="https://github.com/digitaleflex/flexpress-core/actions/workflows/docker-build.yml"><img src="https://github.com/digitaleflex/flexpress-core/actions/workflows/docker-build.yml/badge.svg" alt="Build, Scan & Push"></a>
-  <a href="https://github.com/digitaleflex/flexpress-core/actions/workflows/integration-test.yml"><img src="https://github.com/digitaleflex/flexpress-core/actions/workflows/integration-test.yml/badge.svg" alt="Integration Tests"></a>
+
   <a href="https://github.com/digitaleflex/flexpress-core/actions/workflows/super-linter.yml"><img src="https://github.com/digitaleflex/flexpress-core/actions/workflows/super-linter.yml/badge.svg" alt="Linter"></a>
-  <a href="https://github.com/digitaleflex/flexpress-core/actions/workflows/codeql-analysis.yml"><img src="https://github.com/digitaleflex/flexpress-core/actions/workflows/codeql-analysis.yml/badge.svg" alt="CodeQL Analysis"></a>
+
 </p>
 
 <p align="center">
