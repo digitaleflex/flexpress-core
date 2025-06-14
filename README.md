@@ -60,19 +60,61 @@ Votre site WordPress est maintenant accessible ! Par défaut, vous pouvez le tro
 
 ---
 
+## 🛠️ Commandes Utiles
+
+Une fois l'environnement démarré, voici quelques commandes utiles pour le gérer :
+
+-   **Stopper tous les services :**
+    ```bash
+    docker compose down
+    ```
+
+-   **Consulter les logs en temps réel :**
+    ```bash
+    # Pour WordPress
+    docker compose logs -f wordpress
+
+    # Pour Nginx
+    docker compose logs -f nginx
+    ```
+
+-   **Exécuter des commandes WP-CLI :**
+    ```bash
+    docker compose exec wordpress wp plugin list
+    ```
+
+-   **Ouvrir un shell dans le conteneur WordPress :**
+    ```bash
+    docker compose exec wordpress sh
+    ```
+
+---
+
+## 🚑 Dépannage
+
+-   **Erreur : "Port is already allocated"**
+    -   **Cause :** Un autre service sur votre machine utilise le port défini pour Nginx (par défaut `9000`).
+    -   **Solution :** Modifiez la variable `NGINX_PORT` dans votre fichier `.env` pour un autre port (ex: `9001`) et redémarrez avec `docker compose up -d`.
+
+---
+
 ## 📚 Documentation
+
+La documentation complète du projet se trouve dans le dossier `docs/` :
 
 -   **[Guide de Configuration](docs/CONFIGURATION.md)** : Pour un aperçu détaillé de toutes les options de configuration.
 -   **[Documentation d'Architecture](docs/ARCHITECTURE.md)** : Pour comprendre le fonctionnement interne des services.
--   **[Feuille de Route (Roadmap)](docs/ROADMAP.md)** : Pour voir les futures évolutions du projet.
 -   **[Guide de Sécurité](docs/SECURITY.md)** : Pour comprendre les mesures de sécurité intégrées.
+-   **[Feuille de Route (Roadmap)](docs/ROADMAP.md)** : Pour voir les futures évolutions du projet.
 -   **[Changelog](CHANGELOG.md)** : Pour suivre l'historique des changements.
 
 ---
 
 ## 🤝 Contribution
 
-Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou une pull request sur le dépôt GitHub.
+Nous accueillons avec plaisir les contributions de la communauté !
+
+Avant de commencer, veuillez consulter notre **[Guide de Contribution](docs/CONTRIBUTING.md)** et notre **[Code de Conduite](docs/CODE_OF_CONDUCT.md)** pour comprendre les règles et le processus de soumission.
 
 ## 📄 Licence
 
