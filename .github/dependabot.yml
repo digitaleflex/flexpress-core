@@ -1,0 +1,13 @@
+# .github/dependabot.yml
+
+version: 2
+updates:
+  # Maintenir les dépendances pour GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      # Vérifier les mises à jour chaque semaine
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
