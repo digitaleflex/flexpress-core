@@ -1,0 +1,31 @@
+name: Build & Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*' # Ce déclenche aussi pour git tag v1.0, v1.1, etc.
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set image tag
+        id: vars
+        run: |
+          echo "IMAGE_NAME=eflexcloud/flexpress-core" >> $GITHUB_ENV
+          echo "IMAGE_TAG=1.0" >> $GITHUB_ENV
+
+      - name: Build Docker image
+        run: docker build -t $IMAGE_NAME:$IMAGE_TAG .
+
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME:$IMAGE_TAG
