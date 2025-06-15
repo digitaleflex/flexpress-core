@@ -85,9 +85,25 @@ Pour des configurations plus avancées (PHP, MySQL, Nginx), veuillez consulter l
 
 ---
 
+## 🤖 CI/CD
+
+FlexPress Core intègre un pipeline GitHub Actions complet :
+
+- **Super-Linter** : garantit la qualité du code à chaque push.
+- **Build, Scan & Push** : construit l’image Docker, la scanne avec Trivy et la publie automatiquement sur Docker Hub.
+- **Versioning sémantique automatique** : les images sont étiquetées `latest` pour la branche `main` et `x.y.z`, `x.y` pour chaque tag Git `v*`.
+
+---
+
+## 📜 Licence
+
+Ce projet est distribué sous licence **MIT** – consultez le fichier `LICENSE` pour plus de détails.
+
+---
+
 ## Tags Supportés
 
--   `1.0`, `latest`
+-   `1.0.0`, `1.0`, `latest`
 
 ---
 
