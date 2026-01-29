@@ -1,5 +1,5 @@
 # Image de base WordPress avec PHP 8.2 et FPM
-FROM wordpress:php8.2-fpm-alpine
+FROM wordpress:6.9.0-php8.2-fpm-alpine
 
 # Combinez les commandes RUN pour réduire le nombre de couches de l'image.
 # Installez les dépendances, les extensions PHP, puis nettoyez les dépendances de build.
